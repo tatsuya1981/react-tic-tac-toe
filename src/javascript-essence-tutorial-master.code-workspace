@@ -1,0 +1,22 @@
+{
+  "folders": [
+	{
+		"name": "javascript-essence-tutorial-master",
+		"path": "../../../projects_JS/javascript-essence-tutorial-master"
+	},
+	{
+		"name": "react-training-todo",
+		"path": "../../react-training-todo"
+	},
+	{
+		"name": "react-tic-tac-toe",
+		"path": ".."
+	},
+	{
+		"path": "../../../projects_JS/ws-0300-js-tic-tac-toe"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "javascript-essence-tutorial-master"
+  }
+}
