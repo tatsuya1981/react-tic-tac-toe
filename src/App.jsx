@@ -9,6 +9,15 @@ function Cell({ value, onCellClick }) {
   );
 }
 
+const Active = ({activePlayer}) => {
+  return (
+    <>
+    <div className={`turn-item circle ${activePlayer? "active" : ""}`}>○</div>
+  <div className={`turn-item circle ${!activePlayer? "active" : ""}`}>×</div>
+    </>
+  )
+}
+
 export const App = () => {
   const [cells, setCells] = useState(Array(9).fill(null));
   const [player, setPlayer] = useState(true);
@@ -29,9 +38,7 @@ export const App = () => {
       const newWinner = checkWinner(nextCells);
         if(newWinner) {
           setWinMessage(player? "○ Win" : "× Win");
-        } else {
-          setWinMessage("processing")
-        }
+        } 
   }
   return (
     <>
@@ -42,8 +49,7 @@ export const App = () => {
           </header>
           <div className="display">
             <div className="turn">
-              <div className="turn-item circle active">○</div>
-              <div className="turn-item cross">×</div>
+              <Active activePlayer = {player} />
             </div>
             <div className="state">
               <span className="state-message"> </span>
