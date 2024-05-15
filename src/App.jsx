@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styled from "styled-components";
 import "./sass/index.sass";
 
 function Cell({ value, onCellClick }) {
@@ -9,14 +10,28 @@ function Cell({ value, onCellClick }) {
   );
 }
 
-const Active = ({activePlayer}) => {
+const Active = ({ activePlayer }) => {
   return (
     <>
-    <div className={`turn-item circle ${activePlayer? "active" : ""}`}>○</div>
-  <div className={`turn-item circle ${!activePlayer? "active" : ""}`}>×</div>
+      <div className={`turn-item circle ${activePlayer ? "active" : ""}`}>
+        ○
+      </div>
+      <div className={`turn-item circle ${!activePlayer ? "active" : ""}`}>
+        ×
+      </div>
     </>
-  )
-}
+  );
+};
+
+const Restart = () => {
+  return (
+    <>
+      <a className="button js-restart" onClick={onRestart}>
+        Restart
+      </a>
+    </>
+  );
+};
 
 export const App = () => {
   const [cells, setCells] = useState(Array(9).fill(null));
@@ -25,9 +40,9 @@ export const App = () => {
   function handleClick(i) {
     const nextCells = cells.slice();
 
-    if(cells[i] || checkWinner(cells)) return;
+    if (cells[i] || checkWinner(cells)) return;
 
-    if(player) {
+    if (player) {
       nextCells[i] = "○";
     } else {
       nextCells[i] = "×";
@@ -35,10 +50,10 @@ export const App = () => {
     setCells(nextCells);
     setPlayer(!player);
 
-      const newWinner = checkWinner(nextCells);
-        if(newWinner) {
-          setWinMessage(player? "○ Win" : "× Win");
-        } 
+    const newWinner = checkWinner(nextCells);
+    if (newWinner) {
+      setWinMessage(player ? "○ Win" : "× Win");
+    }
   }
   return (
     <>
@@ -49,7 +64,7 @@ export const App = () => {
           </header>
           <div className="display">
             <div className="turn">
-              <Active activePlayer = {player} />
+              <Active activePlayer={player} />
             </div>
             <div className="state">
               <span className="state-message"> </span>
@@ -80,7 +95,7 @@ export const App = () => {
           <div className="l-footer footer">
             <div className="state-message js-state-message">{winMessage}</div>
             <div>
-              <a className="button js-restart">Restart</a>
+              <Restart />
             </div>
           </div>
         </main>
@@ -103,7 +118,13 @@ function checkWinner(cells) {
   return winPattern.some((pattern) => {
     const [first, second, third] = pattern;
     return (
-      cells[first] && cells[first] === cells[second] && cells[second] === cells[third]
+      cells[first] &&
+      cells[first] === cells[second] &&
+      cells[second] === cells[third]
     );
   });
 }
+
+const onRestart = () => {
+  window.location.reload();
+};
