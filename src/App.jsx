@@ -1,37 +1,38 @@
 import { useState } from "react";
 import styled from "styled-components";
 import "./sass/index.sass";
+import { Display } from "./components/Display";
+import { CellBoard } from "./components/CellBoard";
+import { StateMessage } from "./components/StateMessage";
 
-function Cell({ value, onCellClick }) {
-  return (
-    <td className="cell js-cell" onClick={onCellClick}>
-      {value}
-    </td>
-  );
+//////////  関数  //////////////
+
+function checkWinner(cells) {
+  const winPattern = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  return winPattern.some((pattern) => {
+    const [first, second, third] = pattern;
+    return (
+      cells[first] &&
+      cells[first] === cells[second] &&
+      cells[second] === cells[third]
+    );
+  });
 }
 
-const Active = ({ activePlayer }) => {
-  return (
-    <>
-      <div className={`turn-item circle ${activePlayer ? "active" : ""}`}>
-        ○
-      </div>
-      <div className={`turn-item circle ${!activePlayer ? "active" : ""}`}>
-        ×
-      </div>
-    </>
-  );
+const onRestart = () => {
+  window.location.reload();
 };
 
-const Restart = () => {
-  return (
-    <>
-      <a className="button js-restart" onClick={onRestart}>
-        Restart
-      </a>
-    </>
-  );
-};
+/////// コンポーネント //////////
 
 export const App = () => {
   const [cells, setCells] = useState(Array(9).fill(null));
@@ -59,72 +60,11 @@ export const App = () => {
     <>
       <div className="l-container">
         <main className="l-main">
-          <header className="header">
-            <h1>TIC TAC TOE</h1>
-          </header>
-          <div className="display">
-            <div className="turn">
-              <Active activePlayer={player} />
-            </div>
-            <div className="state">
-              <span className="state-message"> </span>
-            </div>
-          </div>
-          <div className="l-board">
-            <table className="table js-table">
-              <caption className="visuallyhidden">table</caption>
-              <tbody>
-                <tr className="row">
-                  <Cell value={cells[0]} onCellClick={() => handleClick(0)} />
-                  <Cell value={cells[1]} onCellClick={() => handleClick(1)} />
-                  <Cell value={cells[2]} onCellClick={() => handleClick(2)} />
-                </tr>
-                <tr className="row">
-                  <Cell value={cells[3]} onCellClick={() => handleClick(3)} />
-                  <Cell value={cells[4]} onCellClick={() => handleClick(4)} />
-                  <Cell value={cells[5]} onCellClick={() => handleClick(5)} />
-                </tr>
-                <tr className="row">
-                  <Cell value={cells[6]} onCellClick={() => handleClick(6)} />
-                  <Cell value={cells[7]} onCellClick={() => handleClick(7)} />
-                  <Cell value={cells[8]} onCellClick={() => handleClick(8)} />
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className="l-footer footer">
-            <div className="state-message js-state-message">{winMessage}</div>
-            <div>
-              <Restart />
-            </div>
-          </div>
+          <Display player={player} />
+          <CellBoard cells={cells} handleClick={handleClick} />
+          <StateMessage winMessage={winMessage} onRestart={onRestart} />
         </main>
       </div>
     </>
   );
-};
-
-function checkWinner(cells) {
-  const winPattern = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  return winPattern.some((pattern) => {
-    const [first, second, third] = pattern;
-    return (
-      cells[first] &&
-      cells[first] === cells[second] &&
-      cells[second] === cells[third]
-    );
-  });
-}
-
-const onRestart = () => {
-  window.location.reload();
 };
