@@ -38,9 +38,9 @@ export const App = () => {
   const [cells, setCells] = useState(Array(9).fill(null));
   const [player, setPlayer] = useState(true);
   const [winMessage, setWinMessage] = useState("processing");
+  const [actNum, setActNum] = useState(1);
   function handleClick(i) {
     const nextCells = cells.slice();
-
     if (cells[i] || checkWinner(cells)) return;
 
     if (player) {
@@ -49,11 +49,17 @@ export const App = () => {
       nextCells[i] = "×";
     }
     setCells(nextCells);
-    setPlayer(!player);
 
     const newWinner = checkWinner(nextCells);
     if (newWinner) {
       setWinMessage(player ? "○ Win" : "× Win");
+    } else {
+      setPlayer(!player);
+      setActNum((actNumPlus) => actNumPlus + 1);
+      console.log(actNum);
+    }
+    if (actNum === 9) {
+      setWinMessage("Draw");
     }
   }
   return (
