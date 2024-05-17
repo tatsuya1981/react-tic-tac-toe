@@ -49,7 +49,11 @@ export const App = () => {
   const [actNum, setActNum] = useState(1);
   function handleClick(i) {
     const nextCells = cells.slice();
-    if (cells[i] || checkWinner(cells)) return;
+    if (cells[i] || checkWinner(cells)) {
+      return;
+    } else if(actNum === 9) {
+      setWinMessage("Draw");
+    }
 
     if (player) {
       nextCells[i] = "○";
@@ -64,12 +68,9 @@ export const App = () => {
     } else {
       setPlayer(!player);
       setActNum((actNumPlus) => actNumPlus + 1);
-      console.log(actNum);
-    }
-    if (actNum === 9) {
-      setWinMessage("Draw");
     }
   }
+ 
   return (
     <>
       <Container>
