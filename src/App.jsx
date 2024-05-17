@@ -1,9 +1,17 @@
 import { useState } from "react";
 import styled from "styled-components";
-import "./sass/index.sass";
 import { Display } from "./components/Display";
 import { CellBoard } from "./components/CellBoard";
 import { StateMessage } from "./components/StateMessage";
+
+//////////  スタイル  //////////////
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
 
 //////////  関数  //////////////
 
@@ -64,13 +72,13 @@ export const App = () => {
   }
   return (
     <>
-      <div className="l-container">
-        <main className="l-main">
+      <Container>
+        <main>
           <Display player={player} />
           <CellBoard cells={cells} handleClick={handleClick} />
           <StateMessage winMessage={winMessage} onRestart={onRestart} />
         </main>
-      </div>
+      </Container>
     </>
   );
 };
