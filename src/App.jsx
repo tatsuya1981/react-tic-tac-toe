@@ -44,18 +44,14 @@ const onRestart = () => {
 
 export const App = () => {
   const [cells, setCells] = useState(Array(9).fill(null));
-  const [player, setPlayer] = useState(true);
+  const [circle, setCircle] = useState(true);
   const [winMessage, setWinMessage] = useState("processing");
   const [actNum, setActNum] = useState(1);
+  const [Judge, setJudge] = useState(false);
   function handleClick(i) {
     const nextCells = cells.slice();
-    if (cells[i] || checkWinner(cells)) {
-      return;
-    } else if(actNum === 9) {
-      setWinMessage("Draw");
-    }
-
-    if (player) {
+    if (cells[i] || Judge) return;
+    if (circle) {
       nextCells[i] = "○";
     } else {
       nextCells[i] = "×";
@@ -64,18 +60,24 @@ export const App = () => {
 
     const newWinner = checkWinner(nextCells);
     if (newWinner) {
-      setWinMessage(player ? "○ Win" : "× Win");
+      setWinMessage(circle ? "○ Win" : "× Win");
+      setJudge(true);
+      return;
     } else {
-      setPlayer(!player);
+      setCircle(!circle);
       setActNum((actNumPlus) => actNumPlus + 1);
     }
+    if (actNum === 9) {
+      setWinMessage("Draw");
+      setJudge(true);
+    }
   }
- 
+
   return (
     <>
       <Container>
         <main>
-          <Display player={player} />
+          <Display circle={circle} />
           <CellBoard cells={cells} handleClick={handleClick} />
           <StateMessage winMessage={winMessage} onRestart={onRestart} />
         </main>

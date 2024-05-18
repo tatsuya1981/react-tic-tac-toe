@@ -38,13 +38,13 @@ const Active = ({ activePlayer }) => {
     </>
   );
 };
-export const Display = ({ player }) => {
+export const Display = ({ circle }) => {
   return (
     <>
       <Header>TIC TAC TOE</Header>
       <div>
         <TurnDisplay>
-          <Active activePlayer={player} />
+          <Active activePlayer={circle} />
         </TurnDisplay>
         <div>
           <State> </State>
