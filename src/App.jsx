@@ -1,9 +1,17 @@
 import { useState } from "react";
 import styled from "styled-components";
-import "./sass/index.sass";
 import { Display } from "./components/Display";
 import { CellBoard } from "./components/CellBoard";
 import { StateMessage } from "./components/StateMessage";
+
+//////////  スタイル  //////////////
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
 
 //////////  関数  //////////////
 
@@ -36,35 +44,44 @@ const onRestart = () => {
 
 export const App = () => {
   const [cells, setCells] = useState(Array(9).fill(null));
-  const [player, setPlayer] = useState(true);
+  const [circle, setCircle] = useState(true);
   const [winMessage, setWinMessage] = useState("processing");
+  const [actNum, setActNum] = useState(1);
+  const [Judge, setJudge] = useState(false);
   function handleClick(i) {
     const nextCells = cells.slice();
-
-    if (cells[i] || checkWinner(cells)) return;
-
-    if (player) {
+    if (cells[i] || Judge) return;
+    if (circle) {
       nextCells[i] = "○";
     } else {
       nextCells[i] = "×";
     }
     setCells(nextCells);
-    setPlayer(!player);
 
     const newWinner = checkWinner(nextCells);
     if (newWinner) {
-      setWinMessage(player ? "○ Win" : "× Win");
+      setWinMessage(circle ? "○ Win" : "× Win");
+      setJudge(true);
+      return;
+    } else {
+      setCircle(!circle);
+      setActNum((actNumPlus) => actNumPlus + 1);
+    }
+    if (actNum === 9) {
+      setWinMessage("Draw");
+      setJudge(true);
     }
   }
+
   return (
     <>
-      <div className="l-container">
-        <main className="l-main">
-          <Display player={player} />
+      <Container>
+        <main>
+          <Display circle={circle} />
           <CellBoard cells={cells} handleClick={handleClick} />
           <StateMessage winMessage={winMessage} onRestart={onRestart} />
         </main>
-      </div>
+      </Container>
     </>
   );
 };

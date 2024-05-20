@@ -1,27 +1,53 @@
+import styled from "styled-components";
+
+//////////  スタイル  //////////////
+
+const TuenItem = styled.div`
+  text-align: center;
+  padding: 8px;
+  font-size: 1.2rem;
+  width: 100%;
+  ${(props) => props.activePlayer && `border-bottom: 4px solid black;`}
+  }
+`;
+
+const Header = styled.h1`
+  font-size: 1.2rem;
+  text-align: center;
+`;
+
+const TurnDisplay = styled.div`
+  display: flex;
+  width: 70%;
+  padding: 8px 16px;
+  margin: 0 auto;
+`;
+
+const State = styled.span`
+  padding: 18px;
+  text-align: center;
+`;
+
+/////// コンポーネント /////////////
+
 const Active = ({ activePlayer }) => {
   return (
     <>
-      <div className={`turn-item circle ${activePlayer ? "active" : ""}`}>
-        ○
-      </div>
-      <div className={`turn-item circle ${!activePlayer ? "active" : ""}`}>
-        ×
-      </div>
+      <TuenItem activePlayer={activePlayer}>○</TuenItem>
+      <TuenItem activePlayer={!activePlayer}>×</TuenItem>
     </>
   );
 };
-export const Display = ({ player }) => {
+export const Display = ({ circle }) => {
   return (
     <>
-      <header className="header">
-        <h1>TIC TAC TOE</h1>
-      </header>
-      <div className="display">
-        <div className="turn">
-          <Active activePlayer={player} />
-        </div>
-        <div className="state">
-          <span className="state-message"> </span>
+      <Header>TIC TAC TOE</Header>
+      <div>
+        <TurnDisplay>
+          <Active activePlayer={circle} />
+        </TurnDisplay>
+        <div>
+          <State> </State>
         </div>
       </div>
     </>
