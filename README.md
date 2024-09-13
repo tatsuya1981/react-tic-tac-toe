@@ -2,7 +2,7 @@
 
 昔懐かしい○✖︎ゲームをReactの学習用で実装しました。
 
-demo: https://version1-workspace.github.io/ws-0400-react-tic-tac-toe/
+demo: https://tatsuya1981.github.io/react-tic-tac-toe/
 
 ![](./img/game.png)
 
